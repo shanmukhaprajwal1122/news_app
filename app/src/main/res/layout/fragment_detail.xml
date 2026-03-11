@@ -11,17 +11,19 @@
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="4dp">
+        android:background="@color/white"
+        android:elevation="0dp"
+        app:elevation="0dp">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
+            android:background="@color/white"
             app:title="@string/detail_title"
-            app:titleTextColor="@color/white"
+            app:titleTextColor="@color/black"
             app:navigationIcon="@drawable/ic_back"
-            app:navigationIconTint="@color/white" />
+            app:navigationIconTint="@color/black" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

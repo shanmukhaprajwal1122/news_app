@@ -4,25 +4,27 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_light">
+    android:background="@color/background_light">
 
-    <!-- App Bar with Material 3 Design -->
+    <!-- App Bar -->
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:elevation="0dp"
         app:elevation="0dp">
 
-        <!-- Toolbar -->
+        <!-- Toolbar - white, with hamburger icon and title -->
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            android:elevation="4dp"
+            android:background="@color/white"
+            app:navigationIcon="@drawable/ic_menu"
             app:title="@string/home_title"
-            app:titleTextColor="@color/white"
+            app:titleTextColor="@color/black"
+            app:titleTextAppearance="@style/TextAppearance.Material3.TitleLarge"
             app:menu="@menu/menu_home" />
 
         <!-- Offline Banner -->
@@ -53,89 +55,188 @@
 
         </LinearLayout>
 
-        <!-- Category Chips with Material 3 -->
+        <!-- Category Tabs - horizontal scrollable text tabs -->
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
-            android:background="?attr/colorPrimary"
-            android:paddingVertical="8dp">
+            android:background="@color/white"
+            android:paddingTop="4dp">
 
-            <com.google.android.material.chip.ChipGroup
-                android:id="@+id/chipGroup"
+            <LinearLayout
+                android:id="@+id/tabContainer"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:paddingHorizontal="12dp"
-                app:singleSelection="true"
-                app:chipSpacingHorizontal="8dp">
+                android:paddingBottom="0dp">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipAll"
-                    style="@style/Widget.Material3.Chip.Filter"
+                <!-- Popular Tab (selected by default) -->
+                <LinearLayout
+                    android:id="@+id/tabPopular"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/category_all"
-                    android:checked="true"
-                    app:chipBackgroundColor="@color/chip_background"
-                    app:chipStrokeWidth="0dp" />
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:layout_marginEnd="16dp">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipBusiness"
-                    style="@style/Widget.Material3.Chip.Filter"
+                    <TextView
+                        android:id="@+id/tvTabPopular"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/category_popular"
+                        android:textSize="@dimen/text_size_tab"
+                        android:textColor="@color/tab_selected"
+                        android:textStyle="bold"
+                        android:paddingBottom="8dp" />
+
+                    <View
+                        android:id="@+id/indicatorPopular"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:background="@color/tab_indicator" />
+                </LinearLayout>
+
+                <!-- All Tab -->
+                <LinearLayout
+                    android:id="@+id/tabAll"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/category_business"
-                    app:chipBackgroundColor="@color/chip_background"
-                    app:chipStrokeWidth="0dp" />
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:layout_marginEnd="16dp">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipTechnology"
-                    style="@style/Widget.Material3.Chip.Filter"
+                    <TextView
+                        android:id="@+id/tvTabAll"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/category_all"
+                        android:textSize="@dimen/text_size_tab"
+                        android:textColor="@color/tab_unselected"
+                        android:paddingBottom="8dp" />
+
+                    <View
+                        android:id="@+id/indicatorAll"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:background="@android:color/transparent" />
+                </LinearLayout>
+
+                <!-- Politics Tab -->
+                <LinearLayout
+                    android:id="@+id/tabPolitics"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/category_technology"
-                    app:chipBackgroundColor="@color/chip_background"
-                    app:chipStrokeWidth="0dp" />
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:layout_marginEnd="16dp">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipSports"
-                    style="@style/Widget.Material3.Chip.Filter"
+                    <TextView
+                        android:id="@+id/tvTabPolitics"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/category_politics"
+                        android:textSize="@dimen/text_size_tab"
+                        android:textColor="@color/tab_unselected"
+                        android:paddingBottom="8dp" />
+
+                    <View
+                        android:id="@+id/indicatorPolitics"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:background="@android:color/transparent" />
+                </LinearLayout>
+
+                <!-- Tech Tab -->
+                <LinearLayout
+                    android:id="@+id/tabTechnology"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/category_sports"
-                    app:chipBackgroundColor="@color/chip_background"
-                    app:chipStrokeWidth="0dp" />
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:layout_marginEnd="16dp">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipEntertainment"
-                    style="@style/Widget.Material3.Chip.Filter"
+                    <TextView
+                        android:id="@+id/tvTabTechnology"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/category_technology"
+                        android:textSize="@dimen/text_size_tab"
+                        android:textColor="@color/tab_unselected"
+                        android:paddingBottom="8dp" />
+
+                    <View
+                        android:id="@+id/indicatorTechnology"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:background="@android:color/transparent" />
+                </LinearLayout>
+
+                <!-- Health Tab -->
+                <LinearLayout
+                    android:id="@+id/tabHealth"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/category_entertainment"
-                    app:chipBackgroundColor="@color/chip_background"
-                    app:chipStrokeWidth="0dp" />
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:layout_marginEnd="16dp">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipHealth"
-                    style="@style/Widget.Material3.Chip.Filter"
+                    <TextView
+                        android:id="@+id/tvTabHealth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/category_health"
+                        android:textSize="@dimen/text_size_tab"
+                        android:textColor="@color/tab_unselected"
+                        android:paddingBottom="8dp" />
+
+                    <View
+                        android:id="@+id/indicatorHealth"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:background="@android:color/transparent" />
+                </LinearLayout>
+
+                <!-- Science Tab -->
+                <LinearLayout
+                    android:id="@+id/tabScience"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/category_health"
-                    app:chipBackgroundColor="@color/chip_background"
-                    app:chipStrokeWidth="0dp" />
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:paddingHorizontal="8dp"
+                    android:layout_marginEnd="16dp">
 
-                <com.google.android.material.chip.Chip
-                    android:id="@+id/chipScience"
-                    style="@style/Widget.Material3.Chip.Filter"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/category_science"
-                    app:chipBackgroundColor="@color/chip_background"
-                    app:chipStrokeWidth="0dp" />
+                    <TextView
+                        android:id="@+id/tvTabScience"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/category_science"
+                        android:textSize="@dimen/text_size_tab"
+                        android:textColor="@color/tab_unselected"
+                        android:paddingBottom="8dp" />
 
-            </com.google.android.material.chip.ChipGroup>
+                    <View
+                        android:id="@+id/indicatorScience"
+                        android:layout_width="match_parent"
+                        android:layout_height="3dp"
+                        android:background="@android:color/transparent" />
+                </LinearLayout>
+
+            </LinearLayout>
 
         </HorizontalScrollView>
+
+        <!-- Thin separator line -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/gray_light" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -166,7 +267,7 @@
                 android:layout_gravity="center"
                 android:indeterminate="true"
                 android:visibility="gone"
-                app:indicatorColor="?attr/colorPrimary" />
+                app:indicatorColor="@color/tab_indicator" />
 
             <!-- Empty State -->
             <LinearLayout
@@ -182,7 +283,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="📰"
+                    android:text="@string/emoji_news"
                     android:textSize="48sp" />
 
                 <TextView

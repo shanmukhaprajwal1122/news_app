@@ -5,91 +5,100 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="6dp"
-    app:cardElevation="2dp"
-    app:cardCornerRadius="12dp"
-    app:strokeWidth="0dp">
+    android:layout_marginHorizontal="4dp"
+    android:layout_marginVertical="6dp"
+    app:cardElevation="1dp"
+    app:cardCornerRadius="@dimen/card_corner_radius"
+    app:strokeWidth="0dp"
+    app:cardBackgroundColor="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Article Image -->
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/ivArticleImage"
+        <!-- Image container with overlay title -->
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/article_image_height"
-            android:scaleType="centerCrop"
-            android:contentDescription="@string/cd_article_image"
-            app:shapeAppearanceOverlay="@style/ShapeAppearance.App.ImageView.Top"
-            tools:src="@tools:sample/backgrounds/scenic" />
+            android:layout_height="@dimen/article_image_height">
 
-        <!-- Content Container -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="@dimen/padding_medium">
+            <!-- Article Image -->
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivArticleImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/cd_article_image"
+                app:shapeAppearanceOverlay="@style/ShapeAppearance.App.ImageView.Top"
+                tools:src="@tools:sample/backgrounds/scenic" />
 
-            <!-- Title -->
+            <!-- Gradient overlay -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/gradient_overlay" />
+
+            <!-- Title overlaid on image -->
             <TextView
                 android:id="@+id/tvTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:padding="16dp"
                 android:textSize="@dimen/text_size_title"
                 android:textStyle="bold"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:maxLines="2"
                 android:ellipsize="end"
                 android:lineSpacingExtra="2dp"
                 android:fontFamily="sans-serif-medium"
-                tools:text="Breaking News: Sample news title goes here" />
+                android:shadowColor="#80000000"
+                android:shadowDx="0"
+                android:shadowDy="1"
+                android:shadowRadius="4"
+                tools:text="Breaking News: Sample news title goes here with details" />
 
-            <!-- Description -->
+        </FrameLayout>
+
+        <!-- Bottom metadata row: source + date + overflow -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="12dp">
+
+            <!-- Source name -->
             <TextView
-                android:id="@+id/tvDescription"
-                android:layout_width="match_parent"
+                android:id="@+id/tvSource"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_small"
-                android:textSize="@dimen/text_size_medium"
-                android:textColor="@color/gray_dark"
-                android:maxLines="2"
+                android:layout_weight="1"
+                android:textSize="@dimen/text_size_small"
+                android:textColor="@color/source_gray"
+                android:maxLines="1"
                 android:ellipsize="end"
-                android:lineSpacingExtra="2dp"
-                tools:text="This is a sample description for the news article" />
+                android:drawablePadding="6dp"
+                tools:text="Lian Li" />
 
-            <!-- Metadata Row -->
-            <LinearLayout
-                android:layout_width="match_parent"
+            <!-- Date -->
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/margin_medium"
-                android:gravity="center_vertical">
+                android:textSize="@dimen/text_size_small"
+                android:textColor="@color/source_gray"
+                android:layout_marginEnd="8dp"
+                tools:text="Mar 10, 2024" />
 
-                <!-- Source Badge -->
-                <TextView
-                    android:id="@+id/tvSource"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:textSize="@dimen/text_size_small"
-                    android:textStyle="bold"
-                    android:textColor="?attr/colorPrimary"
-                    android:maxLines="1"
-                    android:ellipsize="end"
-                    tools:text="CNN" />
-
-                <!-- Date -->
-                <TextView
-                    android:id="@+id/tvDate"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/text_size_small"
-                    android:textColor="@color/gray_medium"
-                    tools:text="Mar 10, 2024" />
-
-            </LinearLayout>
+            <!-- Overflow / 3-dot menu icon -->
+            <ImageView
+                android:id="@+id/ivOverflow"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_more_vert"
+                android:contentDescription="@string/cd_more_options" />
 
         </LinearLayout>
 

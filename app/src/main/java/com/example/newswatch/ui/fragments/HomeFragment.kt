@@ -2,10 +2,12 @@ package com.example.newswatch.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -30,6 +32,16 @@ class HomeFragment : Fragment() {
 
     private lateinit var newsAdapter: NewsAdapter
 
+    // Tab references for managing selection state
+    private data class TabInfo(
+        val container: LinearLayout,
+        val textView: TextView,
+        val indicator: View,
+        val category: String?
+    )
+
+    private val tabs = mutableListOf<TabInfo>()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -44,7 +56,7 @@ class HomeFragment : Fragment() {
 
         setupToolbar()
         setupRecyclerView()
-        setupChips()
+        setupTabs()
         setupSwipeRefresh()
         observeViewModel()
     }
@@ -73,15 +85,42 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun setupChips() {
+    private fun setupTabs() {
         binding.apply {
-            chipAll.setOnClickListener { viewModel.selectCategory(null) }
-            chipBusiness.setOnClickListener { viewModel.selectCategory(Constants.CATEGORY_BUSINESS) }
-            chipTechnology.setOnClickListener { viewModel.selectCategory(Constants.CATEGORY_TECHNOLOGY) }
-            chipSports.setOnClickListener { viewModel.selectCategory(Constants.CATEGORY_SPORTS) }
-            chipEntertainment.setOnClickListener { viewModel.selectCategory(Constants.CATEGORY_ENTERTAINMENT) }
-            chipHealth.setOnClickListener { viewModel.selectCategory(Constants.CATEGORY_HEALTH) }
-            chipScience.setOnClickListener { viewModel.selectCategory(Constants.CATEGORY_SCIENCE) }
+            // Build tab list: container, textView, indicator, category
+            tabs.clear()
+            tabs.add(TabInfo(tabPopular, tvTabPopular, indicatorPopular, null)) // Popular = general/all
+            tabs.add(TabInfo(tabAll, tvTabAll, indicatorAll, Constants.CATEGORY_GENERAL))
+            tabs.add(TabInfo(tabPolitics, tvTabPolitics, indicatorPolitics, Constants.CATEGORY_BUSINESS)) // Politics maps to business
+            tabs.add(TabInfo(tabTechnology, tvTabTechnology, indicatorTechnology, Constants.CATEGORY_TECHNOLOGY))
+            tabs.add(TabInfo(tabHealth, tvTabHealth, indicatorHealth, Constants.CATEGORY_HEALTH))
+            tabs.add(TabInfo(tabScience, tvTabScience, indicatorScience, Constants.CATEGORY_SCIENCE))
+
+            // Set click listeners for each tab
+            tabs.forEach { tab ->
+                tab.container.setOnClickListener {
+                    selectTab(tab)
+                    viewModel.selectCategory(tab.category)
+                }
+            }
+        }
+    }
+
+    private fun selectTab(selected: TabInfo) {
+        val selectedColor = ContextCompat.getColor(requireContext(), R.color.tab_selected)
+        val unselectedColor = ContextCompat.getColor(requireContext(), R.color.tab_unselected)
+        val indicatorColor = ContextCompat.getColor(requireContext(), R.color.tab_indicator)
+
+        tabs.forEach { tab ->
+            if (tab == selected) {
+                tab.textView.setTextColor(selectedColor)
+                tab.textView.setTypeface(null, android.graphics.Typeface.BOLD)
+                tab.indicator.setBackgroundColor(indicatorColor)
+            } else {
+                tab.textView.setTextColor(unselectedColor)
+                tab.textView.setTypeface(null, android.graphics.Typeface.NORMAL)
+                tab.indicator.setBackgroundColor(android.graphics.Color.TRANSPARENT)
+            }
         }
     }
 
@@ -108,10 +147,8 @@ class HomeFragment : Fragment() {
         viewModel.errorMessage.observe(viewLifecycleOwner) { error ->
             error?.let {
                 if (newsAdapter.itemCount == 0) {
-                    // Show error in empty state
                     binding.tvEmpty.text = it
                 } else {
-                    // Show toast if we have cached data
                     Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
                 }
                 viewModel.clearError()
@@ -140,6 +177,7 @@ class HomeFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        tabs.clear()
         _binding = null
     }
 }

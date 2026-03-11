@@ -19,6 +19,19 @@
     <color name="error_red">#B00020</color>
     <color name="offline_orange">#FFA000</color>
 
-    <!-- Chip background (Material 3) -->
+    <!-- Chip / Tab colors -->
     <color name="chip_background">#E3F2FD</color>
+    <color name="tab_selected">#222222</color>
+    <color name="tab_unselected">#999999</color>
+    <color name="tab_indicator">#FF3B30</color>
+
+    <!-- Card overlay gradient -->
+    <color name="overlay_start">#00000000</color>
+    <color name="overlay_end">#CC000000</color>
+
+    <!-- Background -->
+    <color name="background_light">#F2F2F7</color>
+
+    <!-- Source text -->
+    <color name="source_gray">#888888</color>
 </resources>

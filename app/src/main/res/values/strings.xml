@@ -7,12 +7,14 @@
     <string name="splash_tagline">All type of news from all trusted sources\nfor all type of people</string>
 
     <!-- Categories -->
+    <string name="category_popular">Popular</string>
     <string name="category_all">All</string>
+    <string name="category_politics">Politics</string>
     <string name="category_business">Business</string>
-    <string name="category_technology">Technology</string>
+    <string name="category_technology">Tech</string>
     <string name="category_sports">Sports</string>
     <string name="category_entertainment">Entertainment</string>
-    <string name="category_health">Health</string>
+    <string name="category_health">Healthy</string>
     <string name="category_science">Science</string>
 
     <!-- Home Screen -->
@@ -40,4 +42,6 @@
     <string name="cd_back_button">Navigate back</string>
     <string name="cd_refresh_button">Refresh articles</string>
     <string name="cd_offline">Offline indicator</string>
+    <string name="cd_more_options">More options</string>
+    <string name="emoji_news">📰</string>
 </resources>

@@ -35,13 +35,10 @@ class NewsAdapter(
 
         fun bind(article: Article) {
             binding.apply {
-                // Set title
+                // Set title (overlaid on image)
                 tvTitle.text = article.title
 
-                // Set description
-                tvDescription.text = article.description ?: "No description available"
-
-                // Set source
+                // Set source as author/source name
                 tvSource.text = article.source.name
 
                 // Set date
