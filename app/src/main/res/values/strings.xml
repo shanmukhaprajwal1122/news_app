@@ -1,0 +1,43 @@
+<resources>
+    <!-- App name -->
+    <string name="app_name">NewsWatch</string>
+
+    <!-- Splash Screen -->
+    <string name="splash_title">NewsWatch</string>
+    <string name="splash_tagline">All type of news from all trusted sources\nfor all type of people</string>
+
+    <!-- Categories -->
+    <string name="category_all">All</string>
+    <string name="category_business">Business</string>
+    <string name="category_technology">Technology</string>
+    <string name="category_sports">Sports</string>
+    <string name="category_entertainment">Entertainment</string>
+    <string name="category_health">Health</string>
+    <string name="category_science">Science</string>
+
+    <!-- Home Screen -->
+    <string name="home_title">NewsWatch</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="no_articles_found">No articles found</string>
+    <string name="offline_message">Offline - Showing cached articles</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="loading">Loading…</string>
+
+    <!-- Detail Screen -->
+    <string name="detail_title">Article</string>
+    <string name="read_full_article">Read Full Article</string>
+    <string name="source_prefix">Source: %s</string>
+    <string name="author_unknown">Unknown</string>
+
+    <!-- Error messages -->
+    <string name="error_fetch_failed">Failed to fetch articles</string>
+    <string name="error_retry">Retry</string>
+    <string name="error_no_cached">No cached articles available</string>
+    <string name="error_connect_internet">Connect to internet to load articles</string>
+
+    <!-- Content descriptions -->
+    <string name="cd_article_image">Article image</string>
+    <string name="cd_back_button">Navigate back</string>
+    <string name="cd_refresh_button">Refresh articles</string>
+    <string name="cd_offline">Offline indicator</string>
+</resources>
