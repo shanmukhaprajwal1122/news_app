@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -26,7 +26,7 @@ class DetailFragment : Fragment() {
 
     private val args: DetailFragmentArgs by navArgs()
 
-    private val viewModel: NewsViewModel by viewModels {
+    private val viewModel: NewsViewModel by activityViewModels {
         NewsViewModelFactory(requireActivity().application)
     }
 
@@ -57,10 +57,14 @@ class DetailFragment : Fragment() {
     private fun loadArticle() {
         val articleUrl = args.articleUrl
 
-        // Observe all articles to find the one we need
+        // Observe all articles once to find the one we need
         viewModel.articles.observe(viewLifecycleOwner) { articles ->
             currentArticle = articles.find { it.url == articleUrl }
-            currentArticle?.let { displayArticle(it) }
+            currentArticle?.let { article ->
+                displayArticle(article)
+                // Stop observing after we find and display the article
+                viewModel.articles.removeObservers(viewLifecycleOwner)
+            }
         }
     }
 

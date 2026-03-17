@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:background="@color/background_light">
 
     <!-- App Bar -->
@@ -12,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:fitsSystemWindows="true"
         android:elevation="0dp"
         app:elevation="0dp">
 
@@ -252,6 +254,8 @@
             android:layout_height="match_parent">
 
             <!-- RecyclerView -->
+
+            <!-- Loading Progress -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
@@ -259,7 +263,6 @@
                 android:clipToPadding="false"
                 android:padding="12dp" />
 
-            <!-- Loading Progress -->
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 android:id="@+id/progressBar"
                 android:layout_width="wrap_content"
