@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -30,7 +32,6 @@ class DetailFragment : Fragment() {
         NewsViewModelFactory(requireActivity().application)
     }
 
-    private var currentArticle: Article? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,8 +45,23 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        applyStatusBarInsets()
         setupToolbar()
         loadArticle()
+    }
+
+    private fun applyStatusBarInsets() {
+        val initialTop = binding.appBarLayout.paddingTop
+        ViewCompat.setOnApplyWindowInsetsListener(binding.appBarLayout) { insetView, insets ->
+            val statusTop = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+            insetView.setPadding(
+                insetView.paddingLeft,
+                initialTop + statusTop,
+                insetView.paddingRight,
+                insetView.paddingBottom
+            )
+            insets
+        }
     }
 
     private fun setupToolbar() {
@@ -56,15 +72,8 @@ class DetailFragment : Fragment() {
 
     private fun loadArticle() {
         val articleUrl = args.articleUrl
-
-        // Observe all articles once to find the one we need
-        viewModel.articles.observe(viewLifecycleOwner) { articles ->
-            currentArticle = articles.find { it.url == articleUrl }
-            currentArticle?.let { article ->
-                displayArticle(article)
-                // Stop observing after we find and display the article
-                viewModel.articles.removeObservers(viewLifecycleOwner)
-            }
+        viewModel.articleByUrl(articleUrl).observe(viewLifecycleOwner) { article ->
+            article?.let { displayArticle(it) }
         }
     }
 

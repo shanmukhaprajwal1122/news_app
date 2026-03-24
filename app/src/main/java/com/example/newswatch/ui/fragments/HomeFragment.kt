@@ -8,6 +8,8 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -54,11 +56,32 @@ class HomeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        applyStatusBarInsets()
         setupToolbar()
         setupRecyclerView()
         setupTabs()
         setupSwipeRefresh()
         observeViewModel()
+        restoreTabSelection(viewModel.getCurrentCategory())
+    }
+
+    private fun applyStatusBarInsets() {
+        val initialTop = binding.appBarLayout.paddingTop
+        ViewCompat.setOnApplyWindowInsetsListener(binding.appBarLayout) { insetView, insets ->
+            val statusTop = insets.getInsets(WindowInsetsCompat.Type.statusBars()).top
+            insetView.setPadding(
+                insetView.paddingLeft,
+                initialTop + statusTop,
+                insetView.paddingRight,
+                insetView.paddingBottom
+            )
+            insets
+        }
+    }
+
+    private fun restoreTabSelection(currentCategory: String?) {
+        val targetTab = tabs.firstOrNull { it.category == currentCategory } ?: tabs.firstOrNull()
+        targetTab?.let { selectTab(it) }
     }
 
     private fun setupToolbar() {

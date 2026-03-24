@@ -83,6 +83,7 @@ dependencies {
 
     // RecyclerView
     implementation("androidx.recyclerview:recyclerview:1.3.2")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
 
     // Testing
     testImplementation("junit:junit:4.13.2")

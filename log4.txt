@@ -1,0 +1,44 @@
+03-18 11:26:32.610  1271  1271 W Telephony: registerMmTelCapabilityCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:32.610  1271  1271 W Telephony: registerImsRegistrationCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:32.976  1271  1271 W Telephony: registerMmTelCapabilityCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:32.977  1271  1271 W Telephony: registerImsRegistrationCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:33.286  1271  1271 W Telephony: registerMmTelCapabilityCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:33.737  1271  1271 W Telephony: registerMmTelCapabilityCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:33.949  1271  1271 W Telephony: registerMmTelCapabilityCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:35.391  1271  1271 W Telephony: registerMmTelCapabilityCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:35.391  1271  1271 W Telephony: registerImsRegistrationCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:35.513  1271  1271 W Telephony: registerMmTelCapabilityCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:35.513  1271  1271 W Telephony: registerImsRegistrationCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:35.800  1271  1271 W Telephony: registerMmTelCapabilityCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:35.800  1271  1271 W Telephony: registerImsRegistrationCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:36.258  1271  1271 W Telephony: registerMmTelCapabilityCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:36.258  1271  1271 W Telephony: registerImsRegistrationCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:36.514  1271  1271 W Telephony: registerMmTelCapabilityCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:36.514  1271  1271 W Telephony: registerImsRegistrationCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:36.703  1271  1271 W Telephony: registerMmTelCapabilityCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:38.099  1754  2578 W DatabaseBackupAndRecovery: Exception encountered while reading xattr:user.publicvolumerecoveryflag from path:/data/media/0/.transforms/recovery/leveldb-0000-0000.
+03-18 11:26:38.353  1271  1271 W Telephony: registerMmTelCapabilityCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:38.355  1271  1271 W Telephony: registerImsRegistrationCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:38.731  1271  1271 W Telephony: registerMmTelCapabilityCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:38.827  1271  1271 W Telephony: registerMmTelCapabilityCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:26:39.469  1271  1271 W Telephony: registerMmTelCapabilityCallback: registration failed, no ImsService available. Exception: code: 1
+03-18 11:31:56.238  1447  3507 W GLSUser : [AppCertManager] Exception while requesting key: 
+03-18 11:31:56.238  1447  3507 W GLSUser : java.util.concurrent.ExecutionException: cutc: Parse Proto Exception with response code 400
+03-18 11:31:56.238  1447  3507 W GLSUser : Caused by: cutc: Parse Proto Exception with response code 400
+03-18 12:11:04.889   848  2161 W WindowManager: Exception thrown during dispatchAppVisibility Window{18a9bd5 u0 com.example.newswatch/com.example.newswatch.MainActivity EXITING}
+03-24 12:14:56.128   848  1871 W WindowManager: Exception thrown during dispatchAppVisibility Window{8f0be62 u0 com.example.newswatch/com.example.newswatch.MainActivity EXITING}
+03-24 12:15:03.025  7965  7991 E NewsRepository: ❌ Exception: Room cannot verify the data integrity. Looks like you've changed schema but forgot to update the version number. You can simply fix this by increasing the version number. Expected identity hash: 3039cd19ffde6ba69ae6cea8e353fd48, found: 954b5780b98d5f64379437cf27901ba8
+03-24 12:15:13.022   848  1874 W WindowManager: Exception thrown during dispatchAppVisibility Window{692a351 u0 com.example.newswatch/com.example.newswatch.MainActivity EXITING}
+03-24 12:15:19.221   848  2159 W WindowManager: Exception thrown during dispatchAppVisibility Window{ceec442 u0 com.example.newswatch/com.example.newswatch.MainActivity EXITING}
+03-24 12:17:55.755   848  1875 W WindowManager: Exception thrown during dispatchAppVisibility Window{9a8a98b u0 com.example.newswatch/com.example.newswatch.MainActivity EXITING}
+03-24 12:19:36.361  1271  1271 W Telephony: registerMmTelCapabilityCallback: registration failed, no ImsService available. Exception: code: 1
+03-24 12:19:36.698  1271  1271 W Telephony: registerMmTelCapabilityCallback: registration failed, no ImsService available. Exception: code: 1
+03-24 12:19:36.699  1271  1271 W Telephony: registerImsRegistrationCallback: registration failed, no ImsService available. Exception: code: 1
+03-24 12:19:36.912  1271  1271 W Telephony: registerMmTelCapabilityCallback: registration failed, no ImsService available. Exception: code: 1
+03-24 12:19:37.183  1271  1271 W Telephony: registerMmTelCapabilityCallback: registration failed, no ImsService available. Exception: code: 1
+03-24 12:19:37.183  1271  1271 W Telephony: registerImsRegistrationCallback: registration failed, no ImsService available. Exception: code: 1
+03-24 12:19:37.315  1271  1271 W Telephony: registerMmTelCapabilityCallback: registration failed, no ImsService available. Exception: code: 1
+03-24 12:19:37.315  1271  1271 W Telephony: registerImsRegistrationCallback: registration failed, no ImsService available. Exception: code: 1
+03-24 12:19:37.320  1271  1271 W Telephony: registerMmTelCapabilityCallback: registration failed, no ImsService available. Exception: code: 1
+03-24 12:19:43.672  8386  8497 E NewsRepository: ❌ Exception: Room cannot verify the data integrity. Looks like you've changed schema but forgot to update the version number. You can simply fix this by increasing the version number. Expected identity hash: 3039cd19ffde6ba69ae6cea8e353fd48, found: 954b5780b98d5f64379437cf27901ba8
+03-24 12:21:41.199   848  1875 W WindowManager: Exception thrown during dispatchAppVisibility Window{5cae153 u0 com.example.newswatch/com.example.newswatch.MainActivity EXITING}

@@ -31,20 +31,16 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
     val isOffline: LiveData<Boolean> = _isOffline
 
     init {
-        // Initialize repository
         val apiService = NewsApiService.create()
         val articleDao = NewsDatabase.getDatabase(application).articleDao()
         repository = NewsRepository(apiService, articleDao, application)
 
-        // Observe articles based on selected category
+        // .asLiveData() converts Flow → LiveData so switchMap works
         articles = _selectedCategory.switchMap { category ->
-            repository.getArticles(category)
+            repository.getArticles(category).asLiveData()
         }
 
-        // Load initial data
         loadArticles()
-
-        // Clean old cache
         cleanCache()
     }
 
@@ -108,15 +104,16 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
-    /**
-     * Get current selected category
-     */
     fun getCurrentCategory(): String? = _selectedCategory.value
 
-    /**
-     * Check if currently loading
-     */
     fun isCurrentlyLoading(): Boolean = _isLoading.value ?: false
+
+    /**
+     * Get a specific article by its URL
+     */
+    fun articleByUrl(url: String): LiveData<Article?> = articles.map { list ->
+        list.firstOrNull { it.url == url }
+    }
 }
 
 /**
