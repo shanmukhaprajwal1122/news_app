@@ -11,7 +11,9 @@ import com.example.newswatch.utils.Constants
 import com.example.newswatch.utils.NetworkHelper
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.withContext
 
 class NewsRepository(
@@ -23,56 +25,63 @@ class NewsRepository(
     private val TAG = "NewsRepository"
 
     /**
-     * Get articles as Flow (offline-first)
-     * Single function handles both null (Popular/All) and specific category
+     * Single Flow — handles everything:
+     * 1. Emit cached DB data immediately (first snapshot)
+     * 2. Fetch from API in background
+     * 3. Save to DB
+     * 4. Emit fresh data
      */
-    fun getArticles(category: String?): Flow<List<Article>> {
-        return articleDao.getArticlesByOptionalCategory(category).map { entities ->
-            entities.map { it.toArticle() }
+    fun getArticles(category: String?): Flow<List<Article>> = flow {
+
+        // Step 1 — get cached snapshot once and emit immediately
+        // .first() takes ONE emission and moves on — doesn't block forever
+        val cached = articleDao
+            .getArticlesByOptionalCategory(category)
+            .first()
+            .map { it.toArticle() }
+
+        emit(cached)
+        Log.d(TAG, "📦 Emitted ${cached.size} cached articles")
+
+        // Step 2 — check network
+        if (!NetworkHelper.isNetworkAvailable(context)) {
+            Log.d(TAG, "📴 Offline - Showing cached data only")
+            return@flow
         }
-    }
 
-    /**
-     * Refresh articles from API
-     * Saves to database on success
-     */
-    suspend fun refreshArticles(category: String?): Result<Unit> {
-        return withContext(Dispatchers.IO) {
-            try {
-                if (!NetworkHelper.isNetworkAvailable(context)) {
-                    Log.d(TAG, "📴 Offline - Using cached data")
-                    return@withContext Result.success(Unit)
-                }
-
-                Log.d(TAG, "🌐 Online - Fetching from API (category: ${category ?: "all"})")
-
-                val response = apiService.getTopHeadlines(category = category)
-
-                if (response.isSuccessful && response.body() != null) {
-                    val articles = response.body()!!.articles
-
-                    Log.d(TAG, "✅ Got ${articles.size} articles from API")
-
-                    val entities = articles.map { it.toEntity(category) }
-
-                    // Single call handles both null and specific category
-                    articleDao.deleteArticlesByOptionalCategory(category)
-
-                    articleDao.insertArticles(entities)
-
-                    Log.d(TAG, "💾 Saved ${entities.size} articles to database")
-
-                    Result.success(Unit)
-                } else {
-                    Log.e(TAG, "❌ API Error: ${response.code()} - ${response.message()}")
-                    Result.failure(Exception("API Error: ${response.code()}"))
-                }
-            } catch (e: Exception) {
-                Log.e(TAG, "❌ Exception: ${e.message}", e)
-                Result.failure(e)
+        // Step 3 — fetch fresh data from API
+        Log.d(TAG, "🌐 Fetching from API (category: ${category ?: "all"})")
+        try {
+            val response = withContext(Dispatchers.IO) {
+                apiService.getTopHeadlines(category = category)
             }
+
+            if (response.isSuccessful && response.body() != null) {
+                val freshEntities = response.body()!!.articles
+                    .map { it.toEntity(category) }
+
+                // Step 4 — save to DB
+                withContext(Dispatchers.IO) {
+                    articleDao.deleteArticlesByOptionalCategory(category)
+                    articleDao.insertArticles(freshEntities)
+                }
+
+                Log.d(TAG, "💾 Saved ${freshEntities.size} articles")
+
+                // Step 5 — emit fresh data
+                val fresh = freshEntities.map { it.toArticle() }
+                emit(fresh)
+                Log.d(TAG, "✅ Emitted ${fresh.size} fresh articles")
+
+            } else {
+                Log.e(TAG, "❌ API Error: ${response.code()} - ${response.message()}")
+            }
+
+        } catch (e: Exception) {
+            Log.e(TAG, "❌ Exception: ${e.message}", e)
         }
-    }
+
+    }.flowOn(Dispatchers.IO)
 
     /**
      * Clean old cached articles (older than 7 days)

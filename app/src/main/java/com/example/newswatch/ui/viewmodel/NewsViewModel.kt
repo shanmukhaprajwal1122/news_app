@@ -15,11 +15,11 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
     // Current selected category
     private val _selectedCategory = MutableLiveData<String?>(null)
 
-    // Articles from database (auto-updates UI)
+    // Articles — driven entirely by Flow from repository
     val articles: LiveData<List<Article>>
 
     // Loading state
-    private val _isLoading = MutableLiveData<Boolean>()
+    private val _isLoading = MutableLiveData<Boolean>(false)
     val isLoading: LiveData<Boolean> = _isLoading
 
     // Error message
@@ -35,57 +35,31 @@ class NewsViewModel(application: Application) : AndroidViewModel(application) {
         val articleDao = NewsDatabase.getDatabase(application).articleDao()
         repository = NewsRepository(apiService, articleDao, application)
 
-        // .asLiveData() converts Flow → LiveData so switchMap works
+        // switchMap re-subscribes to Flow whenever category changes
+        // Flow handles cache + API + fresh emit — all internally
         articles = _selectedCategory.switchMap { category ->
-            repository.getArticles(category).asLiveData()
+            _isLoading.value = true
+            _isOffline.value = !repository.isNetworkAvailable()
+            repository.getArticles(category).asLiveData().also {
+                _isLoading.value = false
+            }
         }
 
-        loadArticles()
         cleanCache()
     }
 
     /**
-     * Load articles (refresh from API if online)
-     */
-    fun loadArticles(category: String? = null) {
-        viewModelScope.launch {
-            _isLoading.value = true
-            _errorMessage.value = null
-            _selectedCategory.value = category
-            _isOffline.value = !repository.isNetworkAvailable()
-
-            val result = repository.refreshArticles(category)
-
-            result.onSuccess {
-                _isLoading.value = false
-                _isOffline.value = !repository.isNetworkAvailable()
-            }
-
-            result.onFailure { exception ->
-                _isLoading.value = false
-                _isOffline.value = !repository.isNetworkAvailable()
-
-                if (repository.isNetworkAvailable()) {
-                    _errorMessage.value = "Failed to fetch articles: ${exception.message}"
-                } else {
-                    _errorMessage.value = "Offline - Showing cached articles"
-                }
-            }
-        }
-    }
-
-    /**
-     * Refresh current category
-     */
-    fun refresh() {
-        loadArticles(_selectedCategory.value)
-    }
-
-    /**
-     * Change category
+     * Change category — triggers switchMap → new Flow subscription
      */
     fun selectCategory(category: String?) {
-        loadArticles(category)
+        _selectedCategory.value = category
+    }
+
+    /**
+     * Refresh — re-triggers same category Flow
+     */
+    fun refresh() {
+        _selectedCategory.value = _selectedCategory.value
     }
 
     /**
